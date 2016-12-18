@@ -2,19 +2,47 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { AccordionModule } from 'ng2-bootstrap/ng2-bootstrap';
+import {Ng2PaginationModule} from 'ng2-pagination';
 
 import { AppComponent } from './app.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { RouterModule,Routes }   from '@angular/router';
+import {
+  LocationStrategy,
+  HashLocationStrategy
+} from '@angular/common';
+import { NavigatorComponent } from './components/navigator/navigator.component';
+import { Dhis2MenuComponent } from './components/dhis2-menu/dhis2-menu.component';
+import { ValuesPipe } from './pipes/values.pipe';
+import { ListComponent } from './components/list/list.component';
+import { ObjectComponent } from './components/object/object.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoaderComponent,
+    NavigatorComponent,
+    Dhis2MenuComponent,
+    ValuesPipe,
+    ListComponent,
+    ObjectComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    RouterModule.forRoot(<Routes>[
+      {path: '', component:NavigatorComponent},
+      {path: ':objects', component:NavigatorComponent},
+      {path: ':objects/:objectId', component:NavigatorComponent},
+      {path: ':objects/:objectId/:relationObjects', component:NavigatorComponent},
+      {path: ':objects/:objectId/:relationObjects/:relationObjectId', component:NavigatorComponent},
+    ]),
+    HttpModule,
+    Ng2PaginationModule,
+    AccordionModule
   ],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

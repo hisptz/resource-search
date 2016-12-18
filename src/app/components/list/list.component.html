@@ -1,0 +1,17 @@
+<accordion-group [isOpen]="true">
+  <div *ngIf="!loading" accordion-heading>
+    <div class="row">
+      <div class="col-sm-4">
+        {{resourceDetails.displayName}}
+      </div>
+    </div>
+  </div>
+  <loader *ngIf="loading"></loader>
+  <table *ngIf="!loading" class="table table-hover">
+    <tr><td><pagination-controls (pageChange)="p = $event"></pagination-controls></td></tr>
+    <tr *ngFor="let resource of resources | paginate: {currentPage: p, itemsPerPage: 10}" [routerLink]="['/' + hierarchy[type],resource.id]"><td>{{resource.displayName}}</td></tr>
+  </table>
+  <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+    <strong>Oh snap!</strong> Change a few things up and try submitting again.
+  </div>
+</accordion-group>

@@ -1,0 +1,40 @@
+<accordion-group [isOpen]="true">
+  <div *ngIf="!loading" accordion-heading>
+    <div class="row">
+      <div class="col-sm-4">
+        {{resource.displayName}}
+      </div>
+    </div>
+  </div>
+  <loader *ngIf="loading"></loader>
+  <table *ngIf="!loading && !loadingError" class="table table-hover">
+    <tbody>
+    <template   ngFor let-property [ngForOf]="schema.properties">
+      <tr *ngIf="!property.relativeApiEndpoint">
+        <td>{{property.name}}<!-- -{{property|json}}--></td>
+        <td>
+          {{resource[property.fieldName]}}
+        </td>
+      </tr>
+      <tr *ngIf="property.relativeApiEndpoint">
+        <td>{{property.name}}-{{property|json}}</td>
+        <td>
+          {{resource[property.fieldName] | json}}
+          <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.relativeApiEndpoint.replace('/',''),resource[property.fieldName].id]">Open Details</a>
+          <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
+        </td>
+      </tr>
+    </template>
+    </tbody>
+    <!--<tr *ngFor="let property of schema.properties">
+      <td>{{property.name}}-{{property|json}}</td>
+      <td>
+        <span *ngIf="!property.relativeApiEndpoint">{{resource[property.fieldName]}}</span>
+        <span *ngIf="property.relativeApiEndpoint">{{resource[property.fieldName] | json}}</span>
+      </td>
+    </tr>-->
+  </table>
+  <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+    <strong>Oh snap!</strong> Change a few things up and try submitting again.
+  </div>
+</accordion-group>

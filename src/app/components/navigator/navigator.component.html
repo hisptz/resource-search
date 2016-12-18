@@ -1,0 +1,4 @@
+<template   ngFor let-param [ngForOf]="params | values">
+  <list *ngIf="param.indexOf('objects') > -1" [hierarchy]="params" [type]="param"></list>
+  <object *ngIf="param.indexOf('Id') > -1" [hierarchy]="params" [type]="param"></object>
+</template>
