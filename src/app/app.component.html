@@ -1,10 +1,14 @@
 <ng2-dhis-menu [dhis2_url]="''"></ng2-dhis-menu>
-<h1>
-  {{title}}
-</h1>
 <div class="container-fluid">
+  <h1>
+    {{title}}
+  </h1>
   <div class="col-sm-12 accordion-wrapper">
-
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active">Data</li>
+    </ol>
     <accordion [closeOthers]="true" id="accordion">
       <accordion-group [isOpen]="true">
         <div accordion-heading>

@@ -8,7 +8,7 @@ import {HttpClientService} from "./services/http-client.service";
   providers:[HttpClientService]
 })
 export class AppComponent implements OnInit {
-  title = 'app works!';
+  title = 'Resource Browser';
   public items:Array<string> = ['Item 1', 'Item 2', 'Item 3'];
 
   public groups:Array<any> = [

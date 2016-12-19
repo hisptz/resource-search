@@ -35,13 +35,15 @@ export class ObjectComponent implements OnInit {
       if (index !== array.length - 1){
         url += "/";
       }
-      if(index % 2 == 0 || this.type == key){
+      if(index % 2 == 0){
         objectName = this.hierarchy[key].substr(0,this.hierarchy[key].length - 1);
+      }
+      if( this.type == key){
         return true;
       }
       return false;
     })
-    console.log(url);
+    console.log("Schema Object:",objectName," URL:",url);
     this.http.get("schemas/" + objectName+ ".json").subscribe((data) => {
       this.schema = data.json();
       this.http.get(url+ ".json").subscribe((data) => {

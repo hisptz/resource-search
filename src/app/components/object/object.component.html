@@ -20,7 +20,7 @@
         <td>{{property.name}}-{{property|json}}</td>
         <td>
           {{resource[property.fieldName] | json}}
-          <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.relativeApiEndpoint.replace('/',''),resource[property.fieldName].id]">Open Details</a>
+          <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>
           <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
         </td>
       </tr>
