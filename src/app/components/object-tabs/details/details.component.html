@@ -1,0 +1,24 @@
+<loader *ngIf="loading"></loader>
+<table *ngIf="!loading && !loadingError" class="table table-hover">
+  <tbody>
+  <template   ngFor let-property [ngForOf]="schema.properties">
+    <tr *ngIf="!property.relativeApiEndpoint">
+      <td>{{property.name}}<!-- -{{property|json}}--></td>
+      <td>
+        {{resource[property.fieldName]}}
+      </td>
+    </tr>
+    <tr *ngIf="property.relativeApiEndpoint">
+      <td>{{property.name}}-{{property|json}}</td>
+      <td>
+        {{resource[property.fieldName] | json}}
+        <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>
+        <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
+      </td>
+    </tr>
+  </template>
+  </tbody>
+</table>
+<div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+</div>

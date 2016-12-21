@@ -20,6 +20,11 @@ import { ObjectComponent } from './components/object/object.component';
 import { SearchPipe } from './pipes/search.pipe';
 
 import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DetailsComponent } from './components/object-tabs/details/details.component';
+import { ChartsComponent } from './components/object-tabs/charts/charts.component';
+
+import { Ng2HighchartsModule } from 'ng2-highcharts';
+import { Ng2DhisVisualizerComponent } from './components/object-tabs/charts/ng2-dhis-visulizer.component';
 
 @NgModule({
   declarations: [
@@ -30,12 +35,16 @@ import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
     ValuesPipe,
     ListComponent,
     ObjectComponent,
-    SearchPipe
+    SearchPipe,
+    DetailsComponent,
+    ChartsComponent,
+    Ng2DhisVisualizerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     TabsModule,
+    Ng2HighchartsModule,
     RouterModule.forRoot(<Routes>[
       {path: '', component:NavigatorComponent},
       {path: ':objects', component:NavigatorComponent},

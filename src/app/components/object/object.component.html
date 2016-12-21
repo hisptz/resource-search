@@ -1,44 +1,21 @@
 <section id="{{url}}">
-  <h2 *ngIf="!loading"><a href="#{{url}}">{{resource.displayName}}</a></h2>
+  <h2 *ngIf="schema"><a href="#{{url}}">{{schema.plural}}</a></h2>
+  <h2 *ngIf="!schema"><a href="#{{url}}">Loading...</a></h2>
   <div class="content">
     <loader *ngIf="loading"></loader>
     <tabset *ngIf="!loading && !loadingError">
-      <tab>
+      <tab *ngFor="let tab of resourceExtension.tabs" [active]="tab.active" (select)="tab.active = true"
+           (deselect)="tab.active = false">
         <template tabHeading>
-          <i class="glyphicon glyphicon-info"></i> Details!
+          <i class="glyphicon glyphicon-info"></i> {{tab.title}}
         </template>
-        <table *ngIf="!loading && !loadingError" class="table table-hover">
-          <tbody>
-          <template   ngFor let-property [ngForOf]="schema.properties">
-            <tr *ngIf="!property.relativeApiEndpoint">
-              <td>{{property.name}}<!-- -{{property|json}}--></td>
-              <td>
-                {{resource[property.fieldName]}}
-              </td>
-            </tr>
-            <tr *ngIf="property.relativeApiEndpoint">
-              <td>{{property.name}}-{{property|json}}</td>
-              <td>
-                {{resource[property.fieldName] | json}}
-                <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>
-                <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
-              </td>
-            </tr>
-          </template>
-          </tbody>
-        </table>
-        <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
-          <strong>Oh snap!</strong> Change a few things up and try submitting again.
-        </div>
-      </tab>
-      <tab *ngFor="let tab of resourceExtension.getTabs()" (select)="select(tab)">
-        <template tabHeading>
-          <i class="glyphicon glyphicon-bell"></i> {{tab.name}}
-        </template>
-        I've got an HTML heading, and a select callback. Pretty cool!
+        <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema"></app-details>
+        <app-charts *ngIf="tab.type == 'chat'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab.config"></app-charts>
       </tab>
     </tabset>
-
+    <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+      <strong>Oh snap!</strong> Change a few things up and try submitting again.
+    </div>
   </div>
 </section>
 

@@ -1,0 +1,5 @@
+<loader *ngIf="loading"></loader>
+<!--<ng2-dhis-visualizer *ngIf="!loading && !loadingError" [visualizer_data]="data" [visualizer_config]="structure"></ng2-dhis-visualizer>-->
+<div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+</div>
