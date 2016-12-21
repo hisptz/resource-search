@@ -1,11 +1,13 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input,ChangeDetectionStrategy } from '@angular/core';
 import {HttpClientService} from "../../services/http-client.service";
+import {ResourceExtension} from '../../extensions/resource-extension';
 import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'object',
   templateUrl: './object.component.html',
   styleUrls: ['./object.component.css'],
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   providers:[HttpClientService]
 })
 export class ObjectComponent implements OnInit {
@@ -22,18 +24,19 @@ export class ObjectComponent implements OnInit {
 
   schema;
   resource;
+  resourceExtension;
   loading;
   loadingError;
+  url;
   ngOnInit() {
     this.loading = true;
     this.loadingError = false;
-    let url = "";
+    this.url = "";
     let objectName = "";
-    console.log(this.type,this.hierarchy);
     Object.keys(this.hierarchy).some((key,index,array)=>{
-      url += this.hierarchy[key];
+      this.url += this.hierarchy[key];
       if (index !== array.length - 1){
-        url += "/";
+        this.url += "/";
       }
       if(index % 2 == 0){
         objectName = this.hierarchy[key].substr(0,this.hierarchy[key].length - 1);
@@ -43,13 +46,16 @@ export class ObjectComponent implements OnInit {
       }
       return false;
     })
-    console.log("Schema Object:",objectName," URL:",url);
+    //console.log(new extensions["ResourceExtension"]());
+    let resourceExtension = new ResourceExtension();
+
     this.http.get("schemas/" + objectName+ ".json").subscribe((data) => {
       this.schema = data.json();
-      this.http.get(url+ ".json").subscribe((data) => {
+      this.resourceExtension = resourceExtension.getResourceExt(objectName);
+      this.http.get(this.url + ".json").subscribe((data) => {
         this.resource = data.json();
-        console.log("Resource",this.resource)
         this.loading = false;
+        console.log("Yeey:",this.loading);
       }, (error) => {
         this.loading = false;
         this.loadingError = error;
@@ -58,6 +64,9 @@ export class ObjectComponent implements OnInit {
       this.loading = false;
       this.loadingError = error;
     });
+  }
+  select(tab){
+    console.log(tab);
   }
 
 }

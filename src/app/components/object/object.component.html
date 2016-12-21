@@ -1,40 +1,44 @@
-<accordion-group [isOpen]="true">
-  <div *ngIf="!loading" accordion-heading>
-    <div class="row">
-      <div class="col-sm-4">
-        {{resource.displayName}}
-      </div>
-    </div>
+<section id="{{url}}">
+  <h2 *ngIf="!loading"><a href="#{{url}}">{{resource.displayName}}</a></h2>
+  <div class="content">
+    <loader *ngIf="loading"></loader>
+    <tabset *ngIf="!loading && !loadingError">
+      <tab>
+        <template tabHeading>
+          <i class="glyphicon glyphicon-info"></i> Details!
+        </template>
+        <table *ngIf="!loading && !loadingError" class="table table-hover">
+          <tbody>
+          <template   ngFor let-property [ngForOf]="schema.properties">
+            <tr *ngIf="!property.relativeApiEndpoint">
+              <td>{{property.name}}<!-- -{{property|json}}--></td>
+              <td>
+                {{resource[property.fieldName]}}
+              </td>
+            </tr>
+            <tr *ngIf="property.relativeApiEndpoint">
+              <td>{{property.name}}-{{property|json}}</td>
+              <td>
+                {{resource[property.fieldName] | json}}
+                <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>
+                <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+        <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+          <strong>Oh snap!</strong> Change a few things up and try submitting again.
+        </div>
+      </tab>
+      <tab *ngFor="let tab of resourceExtension.getTabs()" (select)="select(tab)">
+        <template tabHeading>
+          <i class="glyphicon glyphicon-bell"></i> {{tab.name}}
+        </template>
+        I've got an HTML heading, and a select callback. Pretty cool!
+      </tab>
+    </tabset>
+
   </div>
-  <loader *ngIf="loading"></loader>
-  <table *ngIf="!loading && !loadingError" class="table table-hover">
-    <tbody>
-    <template   ngFor let-property [ngForOf]="schema.properties">
-      <tr *ngIf="!property.relativeApiEndpoint">
-        <td>{{property.name}}<!-- -{{property|json}}--></td>
-        <td>
-          {{resource[property.fieldName]}}
-        </td>
-      </tr>
-      <tr *ngIf="property.relativeApiEndpoint">
-        <td>{{property.name}}-{{property|json}}</td>
-        <td>
-          {{resource[property.fieldName] | json}}
-          <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>
-          <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
-        </td>
-      </tr>
-    </template>
-    </tbody>
-    <!--<tr *ngFor="let property of schema.properties">
-      <td>{{property.name}}-{{property|json}}</td>
-      <td>
-        <span *ngIf="!property.relativeApiEndpoint">{{resource[property.fieldName]}}</span>
-        <span *ngIf="property.relativeApiEndpoint">{{resource[property.fieldName] | json}}</span>
-      </td>
-    </tr>-->
-  </table>
-  <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
-    <strong>Oh snap!</strong> Change a few things up and try submitting again.
-  </div>
-</accordion-group>
+</section>
+

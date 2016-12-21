@@ -17,6 +17,9 @@ import { Dhis2MenuComponent } from './components/dhis2-menu/dhis2-menu.component
 import { ValuesPipe } from './pipes/values.pipe';
 import { ListComponent } from './components/list/list.component';
 import { ObjectComponent } from './components/object/object.component';
+import { SearchPipe } from './pipes/search.pipe';
+
+import { TabsModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,11 +29,13 @@ import { ObjectComponent } from './components/object/object.component';
     Dhis2MenuComponent,
     ValuesPipe,
     ListComponent,
-    ObjectComponent
+    ObjectComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    TabsModule,
     RouterModule.forRoot(<Routes>[
       {path: '', component:NavigatorComponent},
       {path: ':objects', component:NavigatorComponent},

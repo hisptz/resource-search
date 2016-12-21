@@ -9,18 +9,7 @@ import {HttpClientService} from "./services/http-client.service";
 })
 export class AppComponent implements OnInit {
   title = 'Resource Browser';
-  public items:Array<string> = ['Item 1', 'Item 2', 'Item 3'];
-
-  public groups:Array<any> = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
+  
   constructor(private http:HttpClientService){
 
   }
