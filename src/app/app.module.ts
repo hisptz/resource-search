@@ -25,6 +25,7 @@ import { ChartsComponent } from './components/object-tabs/charts/charts.componen
 
 import { Ng2HighchartsModule } from 'ng2-highcharts';
 import { Ng2DhisVisualizerComponent } from './components/object-tabs/charts/ng2-dhis-visulizer.component';
+import { TransormFieldToNamePipe } from './pipes/transorm-field-to-name.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { Ng2DhisVisualizerComponent } from './components/object-tabs/charts/ng2-
     SearchPipe,
     DetailsComponent,
     ChartsComponent,
-    Ng2DhisVisualizerComponent
+    Ng2DhisVisualizerComponent,
+    TransormFieldToNamePipe
   ],
   imports: [
     BrowserModule,

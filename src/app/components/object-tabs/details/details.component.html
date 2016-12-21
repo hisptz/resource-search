@@ -2,14 +2,21 @@
 <table *ngIf="!loading && !loadingError" class="table table-hover">
   <tbody>
   <template   ngFor let-property [ngForOf]="schema.properties">
+    <tr *ngIf="config.properties.transform[property.name]">
+      <td>{{property.name | transormFieldToName}} - Awesome</td>
+      <td>
+        <!--{{resourceExtension[config.properties.transform[property.name]](resource[property.fieldName]) | async}}-->
+        {{properties[property.name]}}
+      </td>
+    </tr>
     <tr *ngIf="!property.relativeApiEndpoint">
-      <td>{{property.name}}<!-- -{{property|json}}--></td>
+      <td>{{property.name | transormFieldToName}}<!-- -{{property|json}}--></td>
       <td>
         {{resource[property.fieldName]}}
       </td>
     </tr>
     <tr *ngIf="property.relativeApiEndpoint">
-      <td>{{property.name}}-{{property|json}}</td>
+      <td>{{property.name | transormFieldToName}}-{{property|json}}</td>
       <td>
         {{resource[property.fieldName] | json}}
         <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>

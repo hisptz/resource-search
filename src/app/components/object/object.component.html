@@ -1,5 +1,5 @@
 <section id="{{url}}">
-  <h2 *ngIf="schema"><a href="#{{url}}">{{schema.plural}}</a></h2>
+  <h2 *ngIf="schema"><a href="#{{url}}">{{schema.singular | transormFieldToName}}</a></h2>
   <h2 *ngIf="!schema"><a href="#{{url}}">Loading...</a></h2>
   <div class="content">
     <loader *ngIf="loading"></loader>
@@ -9,7 +9,7 @@
         <template tabHeading>
           <i class="glyphicon glyphicon-info"></i> {{tab.title}}
         </template>
-        <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema"></app-details>
+        <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab"></app-details>
         <app-charts *ngIf="tab.type == 'chat'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab.config"></app-charts>
       </tab>
     </tabset>

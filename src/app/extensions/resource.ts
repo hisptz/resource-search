@@ -1,16 +1,15 @@
+import {HttpClientService} from "../services/http-client.service";
+
 export class Resource {
 
-  tabs = [{
-    title:"Detail Info",
-    active:true,
-    type:"info"
-  },
+  tabs = [
     {
-      title:"Analytics Info",
-      active:false,
-      type:'chat',
-      config:{
+      title: "Detail Info",
+      active: true,
+      type: "info"
+    }
+  ];
 
-      }
-    }];
+  constructor(protected http:HttpClientService) {
+  }
 }

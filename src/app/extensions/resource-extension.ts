@@ -2,15 +2,14 @@ import {Indicator} from "./indicator";
 import {Resource} from "./resource";
 export class ResourceExtension {
 
-  name="Name";
   constructor(){
 
   }
   getResourceExt(name):Resource{
     if(name == "Indicator"){
-      return new Indicator()
+      return new Indicator(null)
     }else{
-      return new Resource();
+      return new Resource(null);
     }
   }
 }

@@ -24,7 +24,6 @@ export class ObjectComponent implements OnInit {
   loadingError;
   url;
   ngOnInit() {
-    console.log("")
     this.loading = true;
     this.loadingError = false;
     this.url = "";
@@ -42,12 +41,11 @@ export class ObjectComponent implements OnInit {
       }
       return false;
     })
-    //console.log(new extensions["ResourceExtension"]());
-    let resourceExtension = new ResourceExtension();
-    this.resourceExtension = resourceExtension.getResourceExt(objectName);
 
     this.http.get("schemas/" + objectName+ ".json").subscribe((data) => {
       this.schema = data.json();
+      let resourceExtension = new ResourceExtension();
+      this.resourceExtension = resourceExtension.getResourceExt(this.schema.displayName);
       //this.resourceExtension = resourceExtension.getResourceExt(objectName);
       this.loading = false;
       /*this.http.get(this.url + ".json").subscribe((data) => {
