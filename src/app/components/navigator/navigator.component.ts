@@ -23,7 +23,6 @@ export class NavigatorComponent implements OnInit {
   init(){
     this.route.params.forEach((params:Params) => {
       this.params = params;
-      console.log(params);
     });
   }
 }

@@ -1,5 +1,5 @@
 <loader *ngIf="loading"></loader>
-<table *ngIf="!loading && !loadingError" class="table table-hover">
+<table *ngIf="!loading && !loadingError" class="table table-hover table-bordered">
   <tbody>
   <template ngFor let-property [ngForOf]="schema.properties">
     <tr *ngIf="!property.relativeApiEndpoint && !properties[property.name] && property.propertyType != 'COMPLEX'">

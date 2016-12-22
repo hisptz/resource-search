@@ -69,7 +69,7 @@ article.accordion section div.content
 article.accordion section:target
 {
   display: inline-table;
-  min-width:30em;
+  width:0px;
   padding: 0 1em;
   color: #333;
   background-color: #fff;
@@ -100,3 +100,8 @@ article.accordion section h2
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
 }
+div tabset div.tab-content{
+  height: 600px;
+  overflow-y: scroll;
+}
+
