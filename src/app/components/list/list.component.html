@@ -5,13 +5,16 @@
   </a></h2>
   <div class="content">
     <loader *ngIf="loading"></loader>
+    <div *ngIf="!loading && !loadingError" class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search">
+        </div>
+      </div>
+      <div class="col-sm-6"><pagination-controls (pageChange)="p = $event" maxSize="3"></pagination-controls></div>
+    </div>
     <table *ngIf="!loading" class="table table-hover">
-      <tr>
-        <td>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
-        </td>
-      </tr>
-      <tr *ngFor="let resource of resources | paginate: {currentPage: p, itemsPerPage: 10}"
+      <tr *ngFor="let resource of resources | search:searchText | paginate: {currentPage: p, itemsPerPage: 10}"
           [routerLink]="['/' + url,resource.id]">
         <td>{{resource.displayName}}</td>
       </tr>
