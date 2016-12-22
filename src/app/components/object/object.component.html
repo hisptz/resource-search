@@ -9,8 +9,10 @@
         <template tabHeading>
           <i class="glyphicon glyphicon-info"></i> {{tab.title}}
         </template>
-        <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab"></app-details>
-        <app-charts *ngIf="tab.type == 'chat'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab.config"></app-charts>
+        <div>
+          <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab"></app-details>
+          <app-charts *ngIf="tab.type == 'chat'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab.config"></app-charts>
+        </div>
       </tab>
     </tabset>
     <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">

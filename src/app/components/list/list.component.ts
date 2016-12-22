@@ -45,8 +45,6 @@ export class ListComponent implements OnInit {
     if(this.url.endsWith("/")){
       this.url = this.url.substr(0,this.url.length - 1);
     }
-    //this.router.navigateByUrl(this.url);
-    console.log("List URL:",this.url);
     this.http.get("resources.json").subscribe((data) => {
       this.resources = data.json().resources.forEach((resource:any)=>{
         if(resource.plural == this.hierarchy[this.type]){
@@ -54,7 +52,6 @@ export class ListComponent implements OnInit {
         }
       })
       this.http.get(this.url+ ".json").subscribe((data) => {
-        console.log(this.url ,":",data.json());
         this.resources = data.json()[this.hierarchy[this.type]];
         this.loading = false;
       }, (error) => {

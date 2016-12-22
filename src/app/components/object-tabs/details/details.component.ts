@@ -1,6 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
 import {HttpClientService} from "../../../services/http-client.service";
-import {ResourceExtension} from '../../../extensions/resource-extension';
 import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
 import {ResourceExtensionService} from "../../../services/resource-extension.service";
 
@@ -34,7 +33,6 @@ export class DetailsComponent implements OnInit {
 
   }
   ngOnInit() {
-    console.log(this.type,this.hierarchy,this.schema);
     this.loading = true;
     this.loadingError = false;
     //let resourceExtension = new ResourceExtension();
@@ -52,7 +50,6 @@ export class DetailsComponent implements OnInit {
         })
       }
       this.loading = false;
-      console.log("Yeey:",this.loading);
     }, (error) => {
       this.loading = false;
       this.loadingError = error;

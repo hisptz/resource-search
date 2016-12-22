@@ -6,9 +6,8 @@
 
   <div class="col-sm-12 accordion-wrapper">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Home</a></li>
-      <li class="breadcrumb-item"><a href="#">Library</a></li>
-      <li class="breadcrumb-item active">Data</li>
+      <li class="breadcrumb-item"><a href="#/">Resource</a></li>
+      <li class="breadcrumb-item" *ngFor="let param of params | values"><a href="#">{{param}}</a></li>
     </ol>
     <article class="accordion">
 
@@ -16,7 +15,7 @@
         <h2><a href="#/">Resources</a></h2>
         <div class="content">
           <loader *ngIf="loading"></loader>
-          <div class="row">
+          <div *ngIf="!loading && !loadingError" class="row">
             <div class="col-sm-6">
               <div class="form-group">
                 <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search">
@@ -24,7 +23,7 @@
             </div>
             <div class="col-sm-6"><pagination-controls (pageChange)="p = $event" maxSize="3"></pagination-controls></div>
           </div>
-          <table *ngIf="!loading" class="table table-hover">
+          <table *ngIf="!loading && !loadingError" class="table table-hover">
             <tr>
               <td>
 
@@ -42,25 +41,5 @@
 
       </router-outlet>
     </article>
-    <!--<div class="accordion-wrapper">
-      <accordion [closeOthers]="true" id="accordion">
-        <accordion-group [isOpen]="true">
-          <div accordion-heading>
-            <div class="row">
-              <div class="col-sm-4">
-                Resources
-              </div>
-            </div>
-          </div>
-          <loader *ngIf="loading"></loader>
-          <table *ngIf="!loading" class="table table-hover">
-            <tr><td><pagination-controls (pageChange)="p = $event"></pagination-controls></td></tr>
-            <tr *ngFor="let resource of resources | paginate: {currentPage: p, itemsPerPage: 10}" [routerLink]="['/' + resource.plural]"><td>{{resource.displayName}}</td></tr>
-          </table>
-        </accordion-group>
-
-      </accordion>
-    </div>-->
-
   </div>
 </div>

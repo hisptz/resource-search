@@ -1,19 +1,19 @@
 import { Component, OnInit,Input } from '@angular/core';
 import {HttpClientService} from "../../services/http-client.service";
-import {ResourceExtension} from '../../extensions/resource-extension';
 import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
+import {ResourceExtensionService} from "../../services/resource-extension.service";
 
 @Component({
   selector: 'object',
   templateUrl: './object.component.html',
   styleUrls: ['./object.component.css'],
-  providers:[HttpClientService]
+  providers:[HttpClientService,ResourceExtensionService]
 })
 export class ObjectComponent implements OnInit {
 
   @Input() type:any;
   @Input() hierarchy:any;
-  constructor(private http:HttpClientService, private router:Router) {
+  constructor(private http:HttpClientService,private resourceExtensionService:ResourceExtensionService) {
 
   }
 
@@ -44,26 +44,12 @@ export class ObjectComponent implements OnInit {
 
     this.http.get("schemas/" + objectName+ ".json").subscribe((data) => {
       this.schema = data.json();
-      let resourceExtension = new ResourceExtension();
-      this.resourceExtension = resourceExtension.getResourceExt(this.schema.displayName);
-      //this.resourceExtension = resourceExtension.getResourceExt(objectName);
+      this.resourceExtension = this.resourceExtensionService.getResourceExt(this.schema.displayName);
       this.loading = false;
-      /*this.http.get(this.url + ".json").subscribe((data) => {
-        this.resource = data.json();
-        this.loading = false;
-        console.log("Yeey:",this.loading);
-      }, (error) => {
-        this.loading = false;
-        this.loadingError = error;
-      });*/
     }, (error) => {
       this.loading = false;
       this.loadingError = error;
     });
-  }
-  select(tab){
-    console.log(tab);
-    tab.active = true;
   }
 
 }

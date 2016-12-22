@@ -7,7 +7,8 @@ export class Indicator extends Resource{
     type: "info",
     properties: {
       transform: {
-        numerator: 'loadNumerator'
+        numerator: 'loadExpression',
+        denominator: 'loadExpression'
       }
     }
   },
@@ -23,11 +24,12 @@ export class Indicator extends Resource{
     separator: "."
   }
 
-  loadNumerator(expression) {
-    console.log("Resource", this.tabs);
+  loadExpression(expression) {
     //let cache = null;
     return new Promise((resolve, reject)=> {
+      //noinspection TypeScriptUnresolvedFunction
       this.http.get("indicators.json")
+
         .map(res => res.json())
         .subscribe(()=> {
           let matcher = expression.match(this.cst.formulaPattern);
@@ -71,9 +73,10 @@ export class Indicator extends Resource{
   getDataElements(dataElementIDs) {
 
     return new Promise((resolve, reject)=> {
+      //noinspection TypeScriptUnresolvedFunction
       this.http.get("dataElements.json?fields=id,name&filter=id:in:[" + dataElementIDs + "]")
         .map(res => res.json())
-        .subscribe((results)=> {
+        .subscribe((results:any)=> {
           resolve(results.dataElements);
         }, ()=> {
           reject("Error");
@@ -84,9 +87,10 @@ export class Indicator extends Resource{
   getCategoryOptions(categoryOptionsIDs) {
 
     return new Promise((resolve, reject)=> {
+      //noinspection TypeScriptUnresolvedFunction
       this.http.get("categoryOptionCombos.json?fields=id,name&filter=id:in:[" + categoryOptionsIDs + "]")
         .map(res => res.json())
-        .subscribe((results)=> {
+        .subscribe((results:any)=> {
           resolve(results.categoryOptionCombos);
         }, ()=> {
           reject("Error");

@@ -1,26 +1,51 @@
 <loader *ngIf="loading"></loader>
 <table *ngIf="!loading && !loadingError" class="table table-hover">
   <tbody>
-  <template   ngFor let-property [ngForOf]="schema.properties">
-    <tr *ngIf="config.properties.transform[property.name]">
-      <td>{{property.name | transormFieldToName}} - Awesome</td>
-      <td>
-        <!--{{resourceExtension[config.properties.transform[property.name]](resource[property.fieldName]) | async}}-->
-        {{properties[property.name]}}
-      </td>
-    </tr>
-    <tr *ngIf="!property.relativeApiEndpoint">
-      <td>{{property.name | transormFieldToName}}<!-- -{{property|json}}--></td>
+  <template ngFor let-property [ngForOf]="schema.properties">
+    <tr *ngIf="!property.relativeApiEndpoint && !properties[property.name] && property.propertyType != 'COMPLEX'">
+      <td>{{property.name | transormFieldToName}}</td>
       <td>
         {{resource[property.fieldName]}}
       </td>
     </tr>
-    <tr *ngIf="property.relativeApiEndpoint">
-      <td>{{property.name | transormFieldToName}}-{{property|json}}</td>
+    <tr *ngIf="properties[property.name]">
+      <td>{{property.name | transormFieldToName}}</td>
       <td>
-        {{resource[property.fieldName] | json}}
-        <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]" [routerLink]="[property.fieldName]">Open Details</a>
-        <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open Details</a>
+        {{properties[property.name]}}
+      </td>
+    </tr>
+    <tr *ngIf="property.propertyType == 'COMPLEX'">
+      <td>{{property.name | transormFieldToName}}</td>
+      <td>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Label</th>
+            <th>Value</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="!properties[property.name]">
+          <tr *ngFor="let value of resource[property.fieldName] | values">
+            <td>{{value | transormFieldToName}}</td>
+            <td>{{resource[property.fieldName][value]}}</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="properties[property.name]">
+          <tr *ngFor="let value of resource[property.fieldName] | values">
+            <td>{{value | transormFieldToName}}</td>
+            <td>{{resource[property.fieldName][value]}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr *ngIf="property.relativeApiEndpoint">
+      <td>{{property.name | transormFieldToName}}</td>
+      <td>
+        <a *ngIf="property.propertyType == 'REFERENCE' && resource[property.fieldName]"
+           [routerLink]="[property.fieldName]">Open Details</a>
+        <a *ngIf="property.propertyType == 'COLLECTION'" [routerLink]="[property.relativeApiEndpoint.replace('/','')]">Open
+          Details</a>
       </td>
     </tr>
   </template>

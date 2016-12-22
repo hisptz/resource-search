@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import {HttpClientService} from "./services/http-client.service";
+import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +10,32 @@ import {HttpClientService} from "./services/http-client.service";
 })
 export class AppComponent implements OnInit {
   title = 'Resource Browser';
-  
-  constructor(private http:HttpClientService){
 
+  constructor(private http:HttpClientService,private route:ActivatedRoute, private router:Router) {
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationStart) {
+        this.init()
+      }
+    })
   }
   resources;
   loading;
   loadingError;
   ngOnInit(){
+    this.init();
+  }
+  params = {
+
+  };
+  init(){
     this.loading = true;
     this.loadingError = false;
     this.http.get("resources.json").subscribe((data) => {
       this.resources = data.json().resources;
+      this.route.params.forEach((params:Params) => {
+        this.params = params;
+        console.log("App parameters:",params);
+      });
       this.loading = false;
     }, (error) => {
       this.loading = false;

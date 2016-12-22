@@ -28,5 +28,4 @@ export class ChartsComponent implements OnInit {
     this.loading = false;
     this.loadingError = false;
   }
-
 }
