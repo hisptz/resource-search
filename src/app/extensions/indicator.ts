@@ -1,4 +1,5 @@
 import {Resource} from "./resource";
+import {DataElement} from "./data-element";
 export class Indicator extends Resource{
 
   tabs = [{
@@ -18,14 +19,7 @@ export class Indicator extends Resource{
       type: 'chat',
       config: {}
     }];
-  cst = {
-    formulaPattern: /#\{.+?\}/g,
-    constantPattern: /C\{.+?\}/g,
-    separator: "."
-  }
-
   loadExpression(expression) {
-    //let cache = null;
     return new Promise((resolve, reject)=> {
       //noinspection TypeScriptUnresolvedFunction
       this.http.get("indicators.json")
@@ -48,10 +42,10 @@ export class Indicator extends Resource{
               categoryOptionsIDs.push(operand.substring(operand.indexOf(this.cst.separator) + 1, operand.length));
             }
           }
+          let dataElement = new DataElement(this.http);
+          dataElement.getCategoryOptions(categoryOptionsIDs).then((categoryOptions:Array<any>) => {
 
-          this.getCategoryOptions(categoryOptionsIDs).then((categoryOptions:Array<any>) => {
-
-            this.getDataElements(dataElementIDs).then((dataElements:Array<any>) => {
+            dataElement.getDataElements(dataElementIDs).then((dataElements:Array<any>) => {
 
               dataElements.forEach((dataElement)=> {
                 expression = expression.replace("#{" + dataElement.id + "}", "(" + dataElement.name + ")");
@@ -68,33 +62,5 @@ export class Indicator extends Resource{
           });
         })
     });
-  }
-
-  getDataElements(dataElementIDs) {
-
-    return new Promise((resolve, reject)=> {
-      //noinspection TypeScriptUnresolvedFunction
-      this.http.get("dataElements.json?fields=id,name&filter=id:in:[" + dataElementIDs + "]")
-        .map(res => res.json())
-        .subscribe((results:any)=> {
-          resolve(results.dataElements);
-        }, ()=> {
-          reject("Error");
-        });
-    })
-  }
-
-  getCategoryOptions(categoryOptionsIDs) {
-
-    return new Promise((resolve, reject)=> {
-      //noinspection TypeScriptUnresolvedFunction
-      this.http.get("categoryOptionCombos.json?fields=id,name&filter=id:in:[" + categoryOptionsIDs + "]")
-        .map(res => res.json())
-        .subscribe((results:any)=> {
-          resolve(results.categoryOptionCombos);
-        }, ()=> {
-          reject("Error");
-        });
-    })
   }
 }

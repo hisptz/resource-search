@@ -3,6 +3,7 @@ import {HttpClientService} from "./http-client.service";
 import {Resource} from "../extensions/resource";
 import {Indicator} from "../extensions/indicator";
 import {ValidationRule} from "../extensions/validation-rule";
+import {DataElement} from "../extensions/data-element";
 
 @Injectable()
 export class ResourceExtensionService {
@@ -15,6 +16,8 @@ export class ResourceExtensionService {
       return new Indicator(this.http)
     }else if(name == "ValidationRule") {
       return new ValidationRule(this.http)
+    }else if(name == "DataElement") {
+      return new DataElement(this.http)
     }else
     {
       return new Resource(this.http);
