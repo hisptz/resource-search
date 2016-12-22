@@ -40,7 +40,6 @@ export class DetailsComponent implements OnInit {
 
     this.http.get(this.url + ".json").subscribe((data) => {
       this.resource = data.json();
-      console.log("Config",this.config);
       if(this.config.properties){
         this.schema.properties.forEach((property)=>{
           if(this.resourceExtension[this.config.properties.transform[property.name]]){

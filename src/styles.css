@@ -7,12 +7,10 @@ article.accordion
   display: block;
   width: 100%;
   margin: 0 auto;
-  background-color: #f5f5f5;
+  background-color: #BFD6E7;
   overflow: auto;
   border-radius: 5px;
   box-shadow: 0 3px 3px rgba(0,0,0,0.3);
-  height: 700px;
-  max-height: 700px;
 }
 article.accordion section
 {
@@ -22,7 +20,7 @@ article.accordion section
   width: 2em;
   margin: 0.5em 0 0.5em 0.5em;
   color: #333;
-  background-color: #333;
+  background-color: #4481BF;
   overflow: hidden;
   border-radius: 3px;
   height: 700px;
@@ -66,20 +64,25 @@ article.accordion section div.content
 {
   margin-left:50px;
 }
-article.accordion section:target
+article.accordion section.hidden-content div.content
+{
+  display:none
+}
+article.accordion section.target
 {
   display: inline-table;
   width:0px;
+  max-width:60%;
   padding: 0 1em;
   color: #333;
   background-color: #fff;
 }
-article.accordion section:target div.content
+article.accordion section.target div.content
 {
   margin-left:0px;
 }
 
-article.accordion section:target h2
+article.accordion section.target h2
 {
   position: static;
   font-size: 1.3em;

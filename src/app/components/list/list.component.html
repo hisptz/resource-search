@@ -1,5 +1,8 @@
-<section id="{{url}}">
-  <h2 *ngIf="!loading"><a href="#{{url}}">{{resourceDetails.displayName}}</a></h2>
+<section [ngClass]="{'target': isLast,'hidden-content':!isLast}">
+  <h2><a href="#{{url}}">
+    <span *ngIf="!loading">{{resourceDetails.displayName}}</span>
+    <span *ngIf="loading">Loading..</span>
+  </a></h2>
   <div class="content">
     <loader *ngIf="loading"></loader>
     <table *ngIf="!loading" class="table table-hover">

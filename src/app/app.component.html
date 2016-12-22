@@ -11,7 +11,7 @@
     </ol>
     <article class="accordion">
 
-      <section id="/">
+      <section  [ngClass]="{'target': isLast,'hidden-content':!isLast}">
         <h2><a href="#/">Resources</a></h2>
         <div class="content">
           <loader *ngIf="loading"></loader>

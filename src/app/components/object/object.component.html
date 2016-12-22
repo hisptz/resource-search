@@ -1,5 +1,5 @@
-<section id="{{url}}">
-  <h2><a #header href="#{{url}}">
+<section [ngClass]="{'target': isLast,'hidden-content':!isLast}">
+  <h2><a href="#{{url}}">
     <span *ngIf="schema">{{schema.singular | transormFieldToName}}</span>
     <span *ngIf="!schema">Loading..</span>
   </a></h2>

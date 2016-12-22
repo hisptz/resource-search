@@ -11,9 +11,11 @@ import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'Resource Browser';
 
+  isLast;
   constructor(private http:HttpClientService,private route:ActivatedRoute, private router:Router) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
+        this.isLast = (val.url == "/");
         this.init()
       }
     })
@@ -34,7 +36,6 @@ export class AppComponent implements OnInit {
       this.resources = data.json().resources;
       this.route.params.forEach((params:Params) => {
         this.params = params;
-        console.log("App parameters:",params);
       });
       this.loading = false;
     }, (error) => {
