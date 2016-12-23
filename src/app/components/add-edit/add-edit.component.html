@@ -1,0 +1,25 @@
+<section [ngClass]="{'target': isLast,'hidden-content':!isLast}">
+  <h2><a href="#{{url}}">
+    <span *ngIf="schema">{{schema.singular | transormFieldToName}}</span>
+    <span *ngIf="!schema">Loading..</span>
+  </a></h2>
+  <div class="content">
+    <loader *ngIf="loading"></loader>
+    <tabset *ngIf="!loading && !loadingError">
+      <tab *ngFor="let tab of resourceExtension.tabs" [active]="tab.active" (select)="tab.active = true"
+           (deselect)="tab.active = false">
+        <template tabHeading>
+          <i class="glyphicon glyphicon-info"></i> {{tab.title}}
+        </template>
+        <div>
+          <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab"></app-details>
+          <app-charts *ngIf="tab.type == 'chat'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab.config"></app-charts>
+        </div>
+      </tab>
+    </tabset>
+    <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
+      <strong>Oh snap!</strong> Change a few things up and try submitting again.
+    </div>
+  </div>
+</section>
+

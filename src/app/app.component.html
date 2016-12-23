@@ -3,43 +3,7 @@
   <h1>
     {{title}}
   </h1>
+  <router-outlet>
 
-  <div class="col-sm-12 accordion-wrapper">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#/">Resource</a></li>
-      <li class="breadcrumb-item" *ngFor="let param of params | values"><a href="#">{{param}}</a></li>
-    </ol>
-    <article class="accordion">
-
-      <section  [ngClass]="{'target': isLast,'hidden-content':!isLast}">
-        <h2><a href="#/">Resources</a></h2>
-        <div class="content">
-          <loader *ngIf="loading"></loader>
-          <div *ngIf="!loading && !loadingError" class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search">
-              </div>
-            </div>
-            <div class="col-sm-6"><pagination-controls (pageChange)="p = $event" maxSize="3"></pagination-controls></div>
-          </div>
-          <table *ngIf="!loading && !loadingError" class="table table-hover">
-            <tr>
-              <td>
-
-              </td>
-            </tr>
-            <tr *ngFor="let resource of resources | search:searchText | paginate: {currentPage: p, itemsPerPage: 10}"
-                [routerLink]="['/' + resource.plural]">
-              <td>{{resource.displayName}}</td>
-            </tr>
-          </table>
-        </div>
-      </section>
-
-      <router-outlet>
-
-      </router-outlet>
-    </article>
-  </div>
+  </router-outlet>
 </div>

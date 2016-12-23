@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "2.0.1",
     "@angular/router": "3.0.0",
     "@types/highcharts": "^4.2.43",
+    "angular2-contextmenu": "^0.6.0",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "font-awesome": "^4.6.3",

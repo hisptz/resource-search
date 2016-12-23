@@ -1,4 +1,43 @@
-<template   ngFor let-param [ngForOf]="params | values">
-  <list *ngIf="param.toLowerCase().indexOf('objects') > -1" [hierarchy]="params" [type]="param"></list>
-  <object *ngIf="param.indexOf('Id') > -1" [hierarchy]="params" [type]="param"></object>
-</template>
+<div class="col-sm-12 accordion-wrapper">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#/">Resource</a></li>
+    <li class="breadcrumb-item" [ngClass]="{'active':true}" *ngFor="let param of params | values"><a href="#">{{params[param] | transormFieldToName}}</a></li>
+  </ol>
+  <article class="accordion">
+
+    <section [ngClass]="{'target': isLast,'hidden-content':!isLast}">
+      <h2><a href="#/">Resources</a></h2>
+      <div class="content">
+        <loader *ngIf="loading"></loader>
+        <div *ngIf="!loading && !loadingError" class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <pagination-controls (pageChange)="p = $event" maxSize="3"></pagination-controls>
+          </div>
+        </div>
+        <table *ngIf="!loading && !loadingError" class="table table-hover">
+          <tr>
+            <td>
+              {{queryParams | json}}
+            </td>
+          </tr>
+          <tr *ngFor="let resource of resources | search:searchText | paginate: {currentPage: p, itemsPerPage: 10}"
+              [routerLink]="['/' + resource.plural]" (contextmenu)="onContextMenu($event, resource)">
+            <td>{{resource.displayName}}</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    <template ngFor let-param [ngForOf]="params | values">
+      <list *ngIf="param.toLowerCase().indexOf('objects') > -1" [hierarchy]="params" [type]="param"></list>
+      <object *ngIf="param.indexOf('Id') > -1 && queryParams['action'] != 'add'" [hierarchy]="params" [type]="param"></object>
+    </template>
+    <!--<template ngFor let-param [ngForOf]="queryParams | values">
+      <add-edit  *ngIf="queryParams['action'] == 'add'" [hierarchy]="params" [type]="param"></add-edit>
+    </template>-->
+  </article>
+</div>

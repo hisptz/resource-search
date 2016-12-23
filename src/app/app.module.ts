@@ -26,6 +26,8 @@ import { ChartsComponent } from './components/object-tabs/charts/charts.componen
 import { Ng2HighchartsModule } from 'ng2-highcharts';
 import { Ng2DhisVisualizerComponent } from './components/object-tabs/charts/ng2-dhis-visulizer.component';
 import { TransormFieldToNamePipe } from './pipes/transorm-field-to-name.pipe';
+import { ContextMenuModule } from 'angular2-contextmenu';
+import { AddEditComponent } from './components/add-edit/add-edit.component';
 
 @NgModule({
   declarations: [
@@ -40,13 +42,15 @@ import { TransormFieldToNamePipe } from './pipes/transorm-field-to-name.pipe';
     DetailsComponent,
     ChartsComponent,
     Ng2DhisVisualizerComponent,
-    TransormFieldToNamePipe
+    TransormFieldToNamePipe,
+    AddEditComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     TabsModule,
     Ng2HighchartsModule,
+    ContextMenuModule,
     RouterModule.forRoot(<Routes>[
       {path: '', component:NavigatorComponent},
       {path: ':objects', component:NavigatorComponent},

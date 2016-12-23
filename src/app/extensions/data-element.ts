@@ -35,9 +35,7 @@ export class DataElement extends Resource {
             }
           });
         });
-        console.log(availablePeriods[selectedPeriodIndex]);
         let pe = this.getFetchingPeriods(availablePeriods[selectedPeriodIndex]);
-        console.log(pe);
         this.http.get("analytics.json?dimension=dx:" + dataElement.id + "&dimension=ou:USER_ORGUNIT&dimension=pe:" + pe + "&displayProperty=NAME").subscribe((analyticsResults)=> {
           resolve(analyticsResults.json());
         }, (error) => {

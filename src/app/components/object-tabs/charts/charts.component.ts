@@ -23,11 +23,9 @@ export class ChartsComponent implements OnInit {
     this.loadingError = false;
 
     let resourceExtension:any = this.resourceExtensionService.getResourceExt(this.schema.displayName);
-    console.log(resourceExtension);
     if(resourceExtension[this.config.getData]){
       resourceExtension[this.config.getData](this.url).then((data)=>{
         this.data = data;
-        console.log(this.data);
         this.loading = false;
       }, (error) => {
         this.loading = false;
