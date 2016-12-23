@@ -28,6 +28,7 @@ import { Ng2DhisVisualizerComponent } from './components/object-tabs/charts/ng2-
 import { TransormFieldToNamePipe } from './pipes/transorm-field-to-name.pipe';
 import { ContextMenuModule } from 'angular2-contextmenu';
 import { AddEditComponent } from './components/add-edit/add-edit.component';
+import { Dhis2VisualizerComponent } from './components/dhis2-visualizer/dhis2-visualizer.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AddEditComponent } from './components/add-edit/add-edit.component';
     ChartsComponent,
     Ng2DhisVisualizerComponent,
     TransormFieldToNamePipe,
-    AddEditComponent
+    AddEditComponent,
+    Dhis2VisualizerComponent
   ],
   imports: [
     BrowserModule,

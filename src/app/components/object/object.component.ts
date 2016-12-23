@@ -15,8 +15,8 @@ export class ObjectComponent extends Section implements OnInit {
   @Input() type:any;
   @Input() hierarchy:any;
 
-  constructor(private http:HttpClientService,private resourceExtensionService:ResourceExtensionService) {
-    super();
+  constructor(private http:HttpClientService,private resourceExtensionService:ResourceExtensionService, protected route:ActivatedRoute) {
+    super(route);
   }
 
   schema;

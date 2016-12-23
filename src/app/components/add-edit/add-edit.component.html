@@ -34,14 +34,14 @@
                   No
                 </option>
               </select>
-              <select name="{{property.name}}" *ngIf="property.relativeApiEndpoint" class="form-control" [(ngModel)]="resource[property.fieldName].id">
+              <!--<select name="{{property.name}}" *ngIf="property.relativeApiEndpoint" class="form-control" [(ngModel)]="resource[property.fieldName].id">
                 <option value="">
                   Select {{property.name | transormFieldToName}}
                 </option>
                 <option *ngFor="let option of relativeApiEndpoint[property.relativeApiEndpoint]" value="{{option.id}}">
                   {{option.displayName}}
                 </option>
-              </select>
+              </select>-->
             </td>
           </tr>
           <tr *ngIf="properties[property.name]">

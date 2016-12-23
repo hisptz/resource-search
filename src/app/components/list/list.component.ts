@@ -14,8 +14,8 @@ export class ListComponent extends Section implements OnInit {
   @Input() type:any;
   @Input() hierarchy:any;
   //url;
-  constructor(private http:HttpClientService, private router:Router) {
-    super();
+  constructor(private http:HttpClientService, private router:Router, protected route:ActivatedRoute) {
+    super(route);
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
         this.ngOnInit()

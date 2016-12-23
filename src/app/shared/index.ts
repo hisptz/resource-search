@@ -1,5 +1,7 @@
 import { Component, OnInit,Input,ElementRef,ViewChild,Renderer } from '@angular/core';
 
+import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
+
 export abstract class Section implements OnInit {
 
   @Input() type:any;
@@ -9,6 +11,9 @@ export abstract class Section implements OnInit {
   loading;
   loadingError;
   isLast:Boolean;
+  constructor(protected route:ActivatedRoute){
+
+  }
 
   ngOnInit():void {
     this.loading = true;
@@ -23,7 +28,7 @@ export abstract class Section implements OnInit {
       }
       if( this.type == key){
         if(array.length - 1 == index){
-          this.isLast = true;
+          this.setIsLast()// = true;
         }
         return true;
       }
@@ -33,6 +38,15 @@ export abstract class Section implements OnInit {
       this.url = this.url.substr(0,this.url.length - 1);
     }
     this.sectionOnInit();
+  }
+  setIsLast(){
+    this.route
+      .queryParams
+      .subscribe(params => {
+        if(!params['action']){
+          this.isLast = true;
+        }
+      })
   }
   abstract sectionOnInit():void;
 }

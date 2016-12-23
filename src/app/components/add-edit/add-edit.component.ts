@@ -8,15 +8,16 @@ import {Section} from "../../shared/index";
   selector: 'add-edit',
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.css'],
-  providers:[HttpClientService,ResourceExtensionService]
+  providers: [HttpClientService, ResourceExtensionService]
 })
 export class AddEditComponent extends Section implements OnInit {
 
   @Input() type:any;
   @Input() hierarchy:any;
   @Input() config:any;
-  constructor(private http:HttpClientService,private resourceExtensionService:ResourceExtensionService, private router:Router,private route:ActivatedRoute) {
-    super();
+
+  constructor(private http:HttpClientService, private resourceExtensionService:ResourceExtensionService, private router:Router, protected route:ActivatedRoute) {
+    super(route);
     router.events.subscribe((val) => {
       if (val instanceof NavigationStart) {
         this.ngOnInit()
@@ -30,44 +31,37 @@ export class AddEditComponent extends Section implements OnInit {
   resourceExtension;
   schema:any;
 
-  properties={
+  properties = {}
+  action = "";
 
-  }
   sectionOnInit() {
-    this.http.get("schemas/" + this.objectName+ ".json").subscribe((data) => {
+    this.http.get("schemas/" + this.objectName + ".json").subscribe((data) => {
       this.schema = data.json();
       this.resourceExtension = this.resourceExtensionService.getResourceExt(this.schema.displayName);
       this.route
         .queryParams
         .subscribe(params => {
 
-          if(params['action'] == 'add'){
+          if (params['action'] == 'add') {
+            this.action = "add";
             this.resource = {};
-            this.schema.properties.forEach((property:any) =>{
-              if(property.relativeApiEndpoint && property.required){
+            this.schema.properties.forEach((property:any) => {
+              if (property.relativeApiEndpoint && property.required) {
                 this.addEndPoint(property);
               }
             })
             this.loading = false;
-          }else if(params['action'] == 'edit'){
+          } else if (params['action'] == 'edit') {
+            this.action = "edit";
             this.http.get(this.url + ".json").subscribe((data) => {
               this.resource = data.json();
-              /*if(this.config.properties){
-                this.schema.properties.forEach((property)=>{
-                  if(this.resourceExtension[this.config.properties.transform[property.name]]){
-                    this.resourceExtension[this.config.properties.transform[property.name]](this.resource[property.name]).then((result)=>{
-                      this.properties[property.name] = result;
-                    })
-                  }
-                })
-              }*/
               this.loading = false;
             }, (error) => {
               this.loading = false;
               this.loadingError = error;
             });
           }
-          console.log("App Params:",params);
+          console.log("App Params:", params);
         });
     }, (error) => {
       this.loading = false;
@@ -76,31 +70,43 @@ export class AddEditComponent extends Section implements OnInit {
 
   }
 
-  relativeApiEndpoint={
+  relativeApiEndpoint = {}
 
-  }
-  addEndPoint(property){
-    this.resource[property.name] = {id:""};
-    this.http.get(property.relativeApiEndpoint.replace("/","") + ".json").subscribe((data) => {
-      this.relativeApiEndpoint[property.relativeApiEndpoint] = data.json()[property.relativeApiEndpoint.replace("/","")];
+  addEndPoint(property) {
+    if (this.action = "add")
+      this.resource[property.name] = {id: ""};
+    this.http.get(property.relativeApiEndpoint.replace("/", "") + ".json").subscribe((data) => {
+      this.relativeApiEndpoint[property.relativeApiEndpoint] = data.json()[property.relativeApiEndpoint.replace("/", "")];
     }, (error) => {
       this.loading = false;
       this.loadingError = error;
     });
   }
+
   savingError:any;
-  save(){
+
+  save() {
     this.savingError = null;
-    this.http.post(this.url + ".json",this.resource).subscribe((data) => {
+    if (this.action =="add") {
+      this.add();
+    } else if (this.action == "edit") {
+      this.update();
+    }
+
+    return false;
+  }
+
+  add() {
+    this.http.post(this.url + ".json", this.resource).subscribe((data) => {
       console.log(data.json());
       let results = data.json();
-      if(results.response.status == "SUCCESS"){
-        if(results.response.importConflicts){
+      if (results.response.status == "SUCCESS") {
+        if (results.response.importConflicts) {
           this.savingError = {
-            type:'warning',
-            message:"" + results.response.importConflicts
+            type: 'warning',
+            message: "" + results.response.importConflicts
           };
-        }else{
+        } else {
           this.router.navigateByUrl(this.url + "/" + results.response.lastImported);
         }
       }
@@ -108,10 +114,36 @@ export class AddEditComponent extends Section implements OnInit {
     }, (error) => {
       this.loading = false;
       this.savingError = {
-        type:'danger',
-        message:"" + error.response.importConflicts
+        type: 'danger',
+        message: "" + error.response.importConflicts
       };
     });
-    return false;
+  }
+
+  update() {
+    this.http.put(this.url + ".json", this.resource).subscribe((data) => {
+      console.log(data.json());
+      let results = data.json();
+      if (results.response.status == "SUCCESS") {
+        if (results.response.importConflicts) {
+          this.savingError = {
+            type: 'warning',
+            message: "" + results.response.importConflicts
+          };
+        } else {
+          this.router.navigateByUrl(this.url);
+        }
+      }
+      this.loading = false;
+    }, (error) => {
+      this.loading = false;
+      this.savingError = {
+        type: 'danger',
+        message: "" + error.response.importConflicts
+      };
+    });
+  }
+  setIsLast(){
+    this.isLast = true;
   }
 }
