@@ -12,11 +12,22 @@ export class DataElement extends Resource {
       type: 'chat',
       config: {
         structure: {
-          'type': 'table',
-          'tableConfiguration': {
-            'rows': ['ou', 'dx', 'pe', 'YfvoyE8tTrk'],
-            'columns': ['co', 'QDSfLpYNZ3l']
-          }
+          components:[
+            {
+              'type': 'table',
+              'config': {
+                'rows': ['pe'],
+                'columns': ['co']
+              }
+            },
+            {
+              'type': 'chart',
+              'config': {
+                'rows': ['pe'],
+                'columns': ['co']
+              }
+            }
+          ]
         },
         getData: 'getData'
       }
@@ -24,7 +35,8 @@ export class DataElement extends Resource {
 
   getData(url) {
     return new Promise((resolve, reject)=> {
-      this.http.get(url + ".json?fields=id,dataSets[periodType]").subscribe((data) => {
+      this.http.get(url + ".json?fields=id,name,dataSets[periodType]").subscribe((data) => {
+
         let availablePeriods = ["Daily", "Weekly", "Monthly", "Bi-monthly", "Quarterly", "Six-monthly", "Six-monthly April", "Yearly", "FinancialOctober", "FinancialJuly", "FinancialApril"];
         let selectedPeriodIndex = 0;
         let dataElement = data.json();
@@ -38,7 +50,32 @@ export class DataElement extends Resource {
         });
         let pe = this.getFetchingPeriods(availablePeriods[selectedPeriodIndex]);
         this.http.get("analytics.json?dimension=dx:" + dataElement.id + "&dimension=ou:USER_ORGUNIT&dimension=pe:" + pe + "&displayProperty=NAME").subscribe((analyticsResults)=> {
-          resolve(analyticsResults.json());
+          resolve({
+            config:{
+              title:dataElement.name,
+              structure:[
+                {
+                  title:"Chart",
+                  active:true,
+                  'type': 'chart',
+                  'config': {
+                    'rows': ['pe'],
+                    'columns': ['co']
+                  }
+                },
+                {
+                  title:"Table",
+                  active:false,
+                  'type': 'table',
+                  'config': {
+                    'rows': ['pe'],
+                    'columns': ['co']
+                  }
+                }
+              ]
+            },
+            analytics:analyticsResults.json()
+          });
         }, (error) => {
           reject(error);
         });

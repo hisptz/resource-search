@@ -13,16 +13,16 @@ export class Dhis2VisualizerComponent implements OnInit {
       text: 'Monthly Average Temperature',
       x: -20 //center
     },
-    subtitle: {
+    /*subtitle: {
       text: 'Source: WorldClimate.com',
       x: -20
-    },
+    },*/
     xAxis: {
       categories: []
     },
     yAxis: {
       title: {
-        text: 'Temperature (°C)'
+        text: 'Amount'
       },
       plotLines: [{
         value: 0,
@@ -31,7 +31,7 @@ export class Dhis2VisualizerComponent implements OnInit {
       }]
     },
     tooltip: {
-      valueSuffix: '°C'
+      //valueSuffix: '°C'
     },
     legend: {
       layout: 'vertical',
@@ -43,20 +43,21 @@ export class Dhis2VisualizerComponent implements OnInit {
   };
 
   @Input() data: any;
-  @Input() config: any;
 
   constructor() { }
 
   ngOnInit() {
-    this.showData.xAxis.categories = this.data.metaData.pe;
-    this.data.metaData.ou.forEach((ouId)=>{
+    this.showData.title.text = this.data.config.title;
+
+    this.showData.xAxis.categories = this.data.analytics.metaData.pe;
+    this.data.analytics.metaData.ou.forEach((ouId)=>{
       let serie = {
-        name:this.data.metaData.names[ouId],
+        name:this.data.analytics.metaData.names[ouId],
         data:[]
       }
-      this.data.metaData.pe.forEach((p)=>{
+      this.data.analytics.metaData.pe.forEach((p)=>{
         let value = 0.0
-        this.data.rows.forEach((row)=>{
+        this.data.analytics.rows.forEach((row)=>{
           if(row[2] == p && row[1] == ouId){
             value = parseFloat(row[3]);
           }

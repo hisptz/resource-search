@@ -1,4 +1,9 @@
-{{config|json}}<br/><br/><br/>
-{{data|json}}
-
-<div [ng2-highcharts]="showData"></div>
+<tabset *ngIf="!loading && !loadingError">
+  <tab *ngFor="let tab of data.config.structure" [active]="tab.active" (select)="tab.active = true"
+       (deselect)="tab.active = false">
+    <template tabHeading>
+      <i *ngIf="tab.icon" class="glyphicon glyphicon-info"></i> {{tab.title}}
+    </template>
+    <div *ngIf="tab.type == 'chart'" [ng2-highcharts]="showData"></div>
+  </tab>
+</tabset>
