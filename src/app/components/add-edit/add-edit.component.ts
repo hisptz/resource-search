@@ -11,28 +11,83 @@ import {Section} from "../../shared/index";
   providers:[HttpClientService,ResourceExtensionService]
 })
 export class AddEditComponent extends Section implements OnInit {
+
   @Input() type:any;
   @Input() hierarchy:any;
-
-  constructor(private http:HttpClientService,private resourceExtensionService:ResourceExtensionService) {
+  @Input() config:any;
+  constructor(private http:HttpClientService,private resourceExtensionService:ResourceExtensionService, private router:Router,private route:ActivatedRoute) {
     super();
+    router.events.subscribe((val) => {
+      if (val instanceof NavigationStart) {
+        this.ngOnInit()
+      }
+    })
   }
 
-  schema;
   resource;
-  resourceExtension;
   loading;
   loadingError;
+  resourceExtension;
+  schema:any;
 
-  sectionOnInit(){
+  properties={
+
+  }
+  sectionOnInit() {
     this.http.get("schemas/" + this.objectName+ ".json").subscribe((data) => {
       this.schema = data.json();
       this.resourceExtension = this.resourceExtensionService.getResourceExt(this.schema.displayName);
-      this.loading = false;
+      this.route
+        .queryParams
+        .subscribe(params => {
+          if(params['action'] == 'add'){
+            this.resource = {};
+            this.loading = false;
+          }else{
+            this.http.get(this.url + ".json").subscribe((data) => {
+              this.resource = data.json();
+              if(this.config.properties){
+                this.schema.properties.forEach((property)=>{
+                  if(this.resourceExtension[this.config.properties.transform[property.name]]){
+                    this.resourceExtension[this.config.properties.transform[property.name]](this.resource[property.name]).then((result)=>{
+                      this.properties[property.name] = result;
+                    })
+                  }
+                })
+              }
+              this.loading = false;
+            }, (error) => {
+              this.loading = false;
+              this.loadingError = error;
+            });
+          }
+          console.log("App Params:",params);
+        });
     }, (error) => {
       this.loading = false;
       this.loadingError = error;
     });
+    /*this.loading = true;
+    this.loadingError = false;
+    //let resourceExtension = new ResourceExtension();
+    this.resourceExtension = this.resourceExtensionService.getResourceExt(this.schema.displayName);
+
+    this.http.get(this.url + ".json").subscribe((data) => {
+      this.resource = data.json();
+      if(this.config.properties){
+        this.schema.properties.forEach((property)=>{
+          if(this.resourceExtension[this.config.properties.transform[property.name]]){
+            this.resourceExtension[this.config.properties.transform[property.name]](this.resource[property.name]).then((result)=>{
+              this.properties[property.name] = result;
+            })
+          }
+        })
+      }
+      this.loading = false;
+    }, (error) => {
+      this.loading = false;
+      this.loadingError = error;
+    });*/
   }
 
 }

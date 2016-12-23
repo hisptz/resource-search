@@ -5,21 +5,28 @@
   </a></h2>
   <div class="content">
     <loader *ngIf="loading"></loader>
-    <tabset *ngIf="!loading && !loadingError">
-      <tab *ngFor="let tab of resourceExtension.tabs" [active]="tab.active" (select)="tab.active = true"
-           (deselect)="tab.active = false">
-        <template tabHeading>
-          <i class="glyphicon glyphicon-info"></i> {{tab.title}}
-        </template>
-        <div>
-          <app-details *ngIf="tab.type == 'info'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab"></app-details>
-          <app-charts *ngIf="tab.type == 'chat'" [hierarchy]="hierarchy" [type]="type" [url]="url" [schema]="schema" [config]="tab.config"></app-charts>
-        </div>
-      </tab>
-    </tabset>
+    <table *ngIf="!loading && !loadingError" class="table table-hover table-bordered">
+      <tbody>
+      <template ngFor let-property [ngForOf]="schema.properties">
+        <tr *ngIf="!property.relativeApiEndpoint && property.propertyType != 'COMPLEX'">
+          <td>{{property.name | transormFieldToName}}</td>
+          <td>
+            {{resource[property.fieldName]}}
+          </td>
+        </tr>
+        <tr *ngIf="properties[property.name]">
+          <td>{{property.name | transormFieldToName}}</td>
+          <td>
+            {{properties[property.name]}}
+          </td>
+        </tr>
+      </template>
+      </tbody>
+    </table>
     <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
       <strong>Oh snap!</strong> Change a few things up and try submitting again.
     </div>
+
   </div>
 </section>
 
