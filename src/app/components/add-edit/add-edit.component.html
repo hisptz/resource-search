@@ -5,24 +5,60 @@
   </a></h2>
   <div class="content">
     <loader *ngIf="loading"></loader>
-    <table *ngIf="!loading && !loadingError" class="table table-hover table-bordered">
-      <tbody>
-      <template ngFor let-property [ngForOf]="schema.properties">
-        <tr *ngIf="!property.relativeApiEndpoint && property.propertyType != 'COMPLEX'">
-          <td>{{property.name | transormFieldToName}}</td>
-          <td>
-            {{resource[property.fieldName]}}
-          </td>
-        </tr>
-        <tr *ngIf="properties[property.name]">
-          <td>{{property.name | transormFieldToName}}</td>
-          <td>
-            {{properties[property.name]}}
-          </td>
-        </tr>
-      </template>
-      </tbody>
-    </table>
+    <form (ngSubmit)="save()">
+      <table *ngIf="!loading && !loadingError" class="table table-hover table-bordered">
+        <tbody>
+        <template ngFor let-property [ngForOf]="schema.properties">
+          <tr *ngIf="(property.relativeApiEndpoint && property.required) || (property.propertyType != 'COMPLEX' && property.simple && property.name != 'created' && property.name != 'lastUpdated')">
+            <td>{{property.name | transormFieldToName}}<span *ngIf="property.required">(*)</span></td>
+            <td>
+              <div *ngIf="property.propertyType != 'CONSTANT' && property.propertyType != 'BOOLEAN' && !property.relativeApiEndpoint" class="form-group">
+                <input *ngIf="property.required" type="text" class="form-control" required name="{{property.name}}"
+                       placeholder="{{property.name | transormFieldToName}}" [(ngModel)]="resource[property.fieldName]">
+                <input *ngIf="!property.required" type="text" class="form-control" name="{{property.name}}" [(ngModel)]="resource[property.fieldName]"
+                       placeholder="{{property.name | transormFieldToName}}">
+              </div>
+              <select name="{{property.name}}" [(ngModel)]="resource[property.fieldName]" *ngIf="property.propertyType == 'CONSTANT'" class="form-control">
+                <option *ngFor="let constant of property.constants" value="constant">
+                  {{constant}}
+                </option>
+              </select>
+              <select name="{{property.name}}" *ngIf="property.propertyType == 'BOOLEAN'" class="form-control" [(ngModel)]="resource[property.fieldName]">
+                <option value="">
+                  Select {{property.name | transormFieldToName}}
+                </option>
+                <option value="true">
+                  Yes
+                </option>
+                <option value="false">
+                  No
+                </option>
+              </select>
+              <select name="{{property.name}}" *ngIf="property.relativeApiEndpoint" class="form-control" [(ngModel)]="resource[property.fieldName].id">
+                <option value="">
+                  Select {{property.name | transormFieldToName}}
+                </option>
+                <option *ngFor="let option of relativeApiEndpoint[property.relativeApiEndpoint]" value="{{option.id}}">
+                  {{option.displayName}}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr *ngIf="properties[property.name]">
+            <td>{{property.name | transormFieldToName}}</td>
+            <td>
+              {{properties[property.name]}}
+            </td>
+          </tr>
+        </template>
+        </tbody>
+      </table>
+      <div *ngIf="savingError" [ngClass]="{'alert-danger':savingError.type == 'danger','alert-warning':savingError.type == 'warning'}" class="alert" role="alert">
+        <strong>Oh snap!</strong> {{savingError.message}}.
+      </div>
+      <button [routerLink]="['/' + url]" type="button" class="btn btn-danger">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
     <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
       <strong>Oh snap!</strong> Change a few things up and try submitting again.
     </div>

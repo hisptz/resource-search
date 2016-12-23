@@ -40,13 +40,19 @@ export class AddEditComponent extends Section implements OnInit {
       this.route
         .queryParams
         .subscribe(params => {
+
           if(params['action'] == 'add'){
             this.resource = {};
+            this.schema.properties.forEach((property:any) =>{
+              if(property.relativeApiEndpoint && property.required){
+                this.addEndPoint(property);
+              }
+            })
             this.loading = false;
-          }else{
+          }else if(params['action'] == 'edit'){
             this.http.get(this.url + ".json").subscribe((data) => {
               this.resource = data.json();
-              if(this.config.properties){
+              /*if(this.config.properties){
                 this.schema.properties.forEach((property)=>{
                   if(this.resourceExtension[this.config.properties.transform[property.name]]){
                     this.resourceExtension[this.config.properties.transform[property.name]](this.resource[property.name]).then((result)=>{
@@ -54,7 +60,7 @@ export class AddEditComponent extends Section implements OnInit {
                     })
                   }
                 })
-              }
+              }*/
               this.loading = false;
             }, (error) => {
               this.loading = false;
@@ -67,27 +73,45 @@ export class AddEditComponent extends Section implements OnInit {
       this.loading = false;
       this.loadingError = error;
     });
-    /*this.loading = true;
-    this.loadingError = false;
-    //let resourceExtension = new ResourceExtension();
-    this.resourceExtension = this.resourceExtensionService.getResourceExt(this.schema.displayName);
 
-    this.http.get(this.url + ".json").subscribe((data) => {
-      this.resource = data.json();
-      if(this.config.properties){
-        this.schema.properties.forEach((property)=>{
-          if(this.resourceExtension[this.config.properties.transform[property.name]]){
-            this.resourceExtension[this.config.properties.transform[property.name]](this.resource[property.name]).then((result)=>{
-              this.properties[property.name] = result;
-            })
-          }
-        })
+  }
+
+  relativeApiEndpoint={
+
+  }
+  addEndPoint(property){
+    this.resource[property.name] = {id:""};
+    this.http.get(property.relativeApiEndpoint.replace("/","") + ".json").subscribe((data) => {
+      this.relativeApiEndpoint[property.relativeApiEndpoint] = data.json()[property.relativeApiEndpoint.replace("/","")];
+    }, (error) => {
+      this.loading = false;
+      this.loadingError = error;
+    });
+  }
+  savingError:any;
+  save(){
+    this.savingError = null;
+    this.http.post(this.url + ".json",this.resource).subscribe((data) => {
+      console.log(data.json());
+      let results = data.json();
+      if(results.response.status == "SUCCESS"){
+        if(results.response.importConflicts){
+          this.savingError = {
+            type:'warning',
+            message:"" + results.response.importConflicts
+          };
+        }else{
+          this.router.navigateByUrl(this.url + "/" + results.response.lastImported);
+        }
       }
       this.loading = false;
     }, (error) => {
       this.loading = false;
-      this.loadingError = error;
-    });*/
+      this.savingError = {
+        type:'danger',
+        message:"" + error.response.importConflicts
+      };
+    });
+    return false;
   }
-
 }
