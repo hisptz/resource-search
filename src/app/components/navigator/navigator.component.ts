@@ -62,7 +62,6 @@ export class NavigatorComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         this.queryParams = params;
-        console.log("App Params:",params);
       });
     this.route.params.forEach((params:Params) => {
       this.params = params;

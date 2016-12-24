@@ -28,7 +28,7 @@ export abstract class Section implements OnInit {
       }
       if( this.type == key){
         if(array.length - 1 == index){
-          this.setIsLast()// = true;
+          this.setIsLast()
         }
         return true;
       }
@@ -39,10 +39,16 @@ export abstract class Section implements OnInit {
     }
     this.sectionOnInit();
   }
+  subscription;
   setIsLast(){
-    this.route
+    this.isLast = false;
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+    this.subscription = this.route
       .queryParams
       .subscribe(params => {
+        console.log(this,params['action']);
         if(!params['action']){
           this.isLast = true;
         }

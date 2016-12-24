@@ -61,7 +61,6 @@ export class AddEditComponent extends Section implements OnInit {
               this.loadingError = error;
             });
           }
-          console.log("App Params:", params);
         });
     }, (error) => {
       this.loading = false;
@@ -98,7 +97,6 @@ export class AddEditComponent extends Section implements OnInit {
 
   add() {
     this.http.post(this.url + ".json", this.resource).subscribe((data) => {
-      console.log(data.json());
       let results = data.json();
       if (results.response.status == "SUCCESS") {
         if (results.response.importConflicts) {
@@ -122,7 +120,6 @@ export class AddEditComponent extends Section implements OnInit {
 
   update() {
     this.http.put(this.url + ".json", this.resource).subscribe((data) => {
-      console.log(data.json());
       let results = data.json();
       if (results.response.status == "SUCCESS") {
         if (results.response.importConflicts) {

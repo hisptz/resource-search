@@ -11,7 +11,7 @@
           <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search">
         </div>
       </div>
-      <div class="col-sm-6"><pagination-controls (pageChange)="p = $event" maxSize="3"></pagination-controls></div>
+      <div class="col-sm-6"><button class="btn btn-primary" [routerLink]="['/' + url]" [queryParams]="{action: 'add'}">Add New</button></div>
     </div>
     <table *ngIf="!loading" class="table table-hover">
       <tr *ngFor="let resource of resources | search:searchText | paginate: {currentPage: p, itemsPerPage: 10}"
@@ -19,6 +19,7 @@
         <td>{{resource.displayName}}</td>
       </tr>
     </table>
+    <div class="col-sm-12"><pagination-controls (pageChange)="p = $event" maxSize="3"></pagination-controls></div>
     <div *ngIf="!loading && loadingError" class="alert alert-danger" role="alert">
       <strong>Oh snap!</strong> Change a few things up and try submitting again.
     </div>
