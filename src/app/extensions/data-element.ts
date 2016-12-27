@@ -12,7 +12,7 @@ export class DataElement extends Resource {
       type: 'chat',
       config: {
         structure: {
-          components:[
+          components: [
             {
               'type': 'table',
               'config': {
@@ -51,12 +51,12 @@ export class DataElement extends Resource {
         let pe = this.getFetchingPeriods(availablePeriods[selectedPeriodIndex]);
         this.http.get("analytics.json?dimension=dx:" + dataElement.id + "&dimension=ou:USER_ORGUNIT&dimension=pe:" + pe + "&displayProperty=NAME").subscribe((analyticsResults)=> {
           resolve({
-            config:{
-              title:dataElement.name,
-              structure:[
+            config: {
+              title: dataElement.name,
+              structure: [
                 {
-                  title:"Chart",
-                  active:true,
+                  title: "Chart",
+                  active: true,
                   'type': 'chart',
                   'config': {
                     'rows': ['pe'],
@@ -64,8 +64,8 @@ export class DataElement extends Resource {
                   }
                 },
                 {
-                  title:"Table",
-                  active:false,
+                  title: "Table",
+                  active: false,
                   'type': 'table',
                   'config': {
                     'rows': ['pe'],
@@ -74,7 +74,7 @@ export class DataElement extends Resource {
                 }
               ]
             },
-            analytics:analyticsResults.json()
+            analytics: analyticsResults.json()
           });
         }, (error) => {
           reject(error);

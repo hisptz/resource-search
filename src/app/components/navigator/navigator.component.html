@@ -1,7 +1,16 @@
 <div class="col-sm-12 accordion-wrapper">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#/">Resource</a></li>
-    <li class="breadcrumb-item" [ngClass]="{'active':true}" *ngFor="let param of params | values"><a href="#">{{params[param] | transormFieldToName}}</a></li>
+    <li class="breadcrumb-item" [ngClass]="{'active':true}" *ngFor="let param of params | values">
+      <a href="#">
+        <span *ngIf="param.indexOf('Id') > -1">
+
+        </span>
+        <span *ngIf="param.indexOf('Id') == -1">
+          {{params[param] | transormFieldToName}}
+        </span>
+      </a>
+    </li>
   </ol>
   <article class="accordion">
 
