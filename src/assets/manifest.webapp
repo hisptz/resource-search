@@ -1,0 +1,21 @@
+{
+    "version": "0.1",
+    "name": "Data Dictionary",
+    "description": "Data Dictionary",
+    "launch_path": "index.html",
+    "icons": {
+        "16": "",
+        "48": "",
+        "128": ""
+    },
+    "developer": {
+        "name": "HISPTZ",
+        "url": ""
+    },
+    "default_locale": "en",
+    "activities": {
+        "dhis": {
+            "href": "/dhis"
+        }
+    }
+}
