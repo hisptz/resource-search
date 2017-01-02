@@ -1,6 +1,6 @@
 {
     "version": "1.0.1",
-    "name": "Resource Browser",
+    "name": "Resource Search",
     "description": "A tool to help go through all the resources on dhis down to every dhis comprehended item.",
     "launch_path": "index.html",
     "icons": {
