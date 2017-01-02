@@ -48,7 +48,6 @@ export abstract class Section implements OnInit {
     this.subscription = this.route
       .queryParams
       .subscribe(params => {
-        console.log(this,params['action']);
         if(!params['action']){
           this.isLast = true;
         }

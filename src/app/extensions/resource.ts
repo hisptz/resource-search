@@ -21,7 +21,6 @@ export class Resource {
   getFetchingPeriods(period) {
     let pe = "";
     let date = new Date();
-    console.log("Period:", period);
     if (period == "Daily") {
       for (let i = 0; i < 30; i++) {
         if (i > 0) {
@@ -44,7 +43,6 @@ export class Resource {
         pe += "" + date.getFullYear() + monthS + dayS;
         date.setDate(date.getDate() - 1);
       }
-      console.log(pe);
     }
     else if (period == "Weekly") {
       for (let i = 0; i < 6; i++) {

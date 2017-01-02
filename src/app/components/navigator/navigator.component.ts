@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClientService} from "../../services/http-client.service";
 import { ActivatedRoute,Params,Router,NavigationStart } from '@angular/router';
 import { ContextMenuService, ContextMenuComponent } from 'angular2-contextmenu';
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/interval";
 
 @Component({
   selector: 'app-navigator',
@@ -58,6 +60,9 @@ export class NavigatorComponent implements OnInit {
 
   };
   apiUrl;
+  resoureIds = {
+
+  }
   init(){
     this.route
       .queryParams
@@ -67,8 +72,11 @@ export class NavigatorComponent implements OnInit {
     this.route.params.forEach((params:Params) => {
       this.params = params;
       this.apiUrl = "";
-      Object.keys(params).some((key,index,array)=>{
+      Object.keys(params).forEach((key,index,array)=>{
         this.apiUrl += "/" + params[key];
+        if(key.indexOf('Id') > -1){
+          this.getIdName(params[key],this.apiUrl);
+        }
       });
       this.isLast = (Object.keys(params).length == 0);
     });
@@ -84,6 +92,11 @@ export class NavigatorComponent implements OnInit {
     });
   }
 
+  getIdName(id,url){
+    return this.http.get(url).subscribe((result)=>{
+      this.resoureIds[id] = result.json();
+    });
+  }
   private contextMenuOptions : any;
   onRowClick(event){
     if(this.contextMenuOptions.length > 0){

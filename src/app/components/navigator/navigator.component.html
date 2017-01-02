@@ -3,8 +3,8 @@
     <li class="breadcrumb-item"><a href="#/">Resource</a></li>
     <li class="breadcrumb-item" [ngClass]="{'active':true}" *ngFor="let param of params | values">
       <a href="#">
-        <span *ngIf="param.indexOf('Id') > -1">
-
+        <span *ngIf="param.indexOf('Id') > -1 && resoureIds[params[param]]">
+          {{resoureIds[params[param]].name}}
         </span>
         <span *ngIf="param.indexOf('Id') == -1">
           {{params[param] | transormFieldToName}}

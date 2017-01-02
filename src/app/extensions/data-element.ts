@@ -41,7 +41,6 @@ export class DataElement extends Resource {
         let selectedPeriodIndex = 0;
         let dataElement = data.json();
         dataElement.dataSets.forEach(function (dataSet:any) {
-          console.log(dataSet);
           availablePeriods.forEach(function (availablePeriod, index) {
             if (dataSet.periodType == availablePeriod && index > selectedPeriodIndex) {
               selectedPeriodIndex = index;
