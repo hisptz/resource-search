@@ -1,0 +1,15 @@
+{
+  "id": "resourcebrowser",
+  "name": "Resource Search",
+  "logo_url": "assets/img/icon.png",
+  "cover_url": "assets/img/icon.png",
+  "short_description": "This is a dhis search engine.",
+  "description": "A tool to help go through all the resources on dhis down to every dhis2 comprehended item.",
+  "github_url":"https://github.com/hisptz/resource-search.git",
+  "features": [
+    "Ability to navigate any resource in dhis",
+    "Ability to analize all Data Elements, Indicators and Validation Rules",
+    "Ability to add/edit any any resource",
+    "Traverse the entire resources to the shackles of infinity"
+  ]
+}

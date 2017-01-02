@@ -1,12 +1,12 @@
 {
-    "version": "0.1",
-    "name": "Data Dictionary",
-    "description": "Data Dictionary",
+    "version": "1.0.1",
+    "name": "Resource Browser",
+    "description": "A tool to help go through all the resources on dhis down to every dhis comprehended item.",
     "launch_path": "index.html",
     "icons": {
-        "16": "",
-        "48": "",
-        "128": ""
+        "16": "assets/img/icon.png",
+        "48": "assets/img/icon.png",
+        "128": "assets/img/icon.png"
     },
     "developer": {
         "name": "HISPTZ",
