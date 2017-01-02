@@ -42,8 +42,8 @@
       </div>
     </section>
     <template ngFor let-param [ngForOf]="params | values">
-      <list *ngIf="param.toLowerCase().indexOf('objects') > -1 && queryParams['action'] != 'edit'" [hierarchy]="params" [type]="param"></list>
-      <object *ngIf="param.indexOf('Id') > -1 && queryParams['action'] != 'add'" [hierarchy]="params" [type]="param"></object>
+      <list *ngIf="param.toLowerCase().indexOf('objects') > -1 && params[param].endsWith('s') && queryParams['action'] != 'edit'" [hierarchy]="params" [type]="param"></list>
+      <object *ngIf="(param.indexOf('Id') > -1 && queryParams['action'] != 'add') || (param.toLowerCase().indexOf('objects') > -1 && !params[param].endsWith('s') && queryParams['action'] != 'edit')" [hierarchy]="params" [type]="param"></object>
       <add-edit  *ngIf="queryParams['action'] == 'add' && ((params | values).length - 1) == 0" [hierarchy]="params" [type]="param"></add-edit>
       <add-edit  *ngIf="queryParams['action'] == 'edit' && ((params | values).length - 1) == 1" [hierarchy]="params" [type]="param"></add-edit>
     </template>

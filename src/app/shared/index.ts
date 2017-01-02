@@ -24,7 +24,11 @@ export abstract class Section implements OnInit {
     Object.keys(this.hierarchy).some((key,index,array)=>{
       this.url += "/" + this.hierarchy[key];
       if(index % 2 == 0){
-        this.objectName = this.hierarchy[key].substr(0,this.hierarchy[key].length - 1);
+        if(!this.hierarchy[key].endsWith('s')){
+          this.objectName = this.hierarchy[key];
+        }else{
+          this.objectName = this.hierarchy[key].substr(0,this.hierarchy[key].length - 1);
+        }
       }
       if( this.type == key){
         if(array.length - 1 == index){
