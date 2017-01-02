@@ -57,6 +57,7 @@ export class NavigatorComponent implements OnInit {
   queryParams = {
 
   };
+  apiUrl;
   init(){
     this.route
       .queryParams
@@ -65,6 +66,10 @@ export class NavigatorComponent implements OnInit {
       });
     this.route.params.forEach((params:Params) => {
       this.params = params;
+      this.apiUrl = "";
+      Object.keys(params).some((key,index,array)=>{
+        this.apiUrl += "/" + params[key];
+      });
       this.isLast = (Object.keys(params).length == 0);
     });
     this.loading = true;

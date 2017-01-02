@@ -1,4 +1,4 @@
-<div class="col-sm-12 accordion-wrapper">
+<div class="col-sm-10">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#/">Resource</a></li>
     <li class="breadcrumb-item" [ngClass]="{'active':true}" *ngFor="let param of params | values">
@@ -12,6 +12,11 @@
       </a>
     </li>
   </ol>
+</div>
+<div class="col-sm-2">
+  <a class="btn btn-primary" href="../..{{apiUrl}}" target="_blank">API</a>
+</div>
+<div class="col-sm-12">
   <article class="accordion">
 
     <section [ngClass]="{'target': isLast,'hidden-content':!isLast}">
