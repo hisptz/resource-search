@@ -22,6 +22,7 @@
     "@angular/router": "3.0.0",
     "@types/highcharts": "^4.2.43",
     "angular2-contextmenu": "^0.6.0",
+    "jquery":"3.1.1",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "font-awesome": "^4.6.3",
