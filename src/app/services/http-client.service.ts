@@ -5,7 +5,7 @@ import {Http, Headers} from '@angular/http';
 export class HttpClientService {
 
   //public APIURL = "/api/24/";
-  public APIURL = "/api/";
+  public APIURL = "../../../api/";
   constructor(private http: Http) {
     this.http = http;
   }
