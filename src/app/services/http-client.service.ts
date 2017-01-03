@@ -4,8 +4,8 @@ import {Http, Headers} from '@angular/http';
 @Injectable()
 export class HttpClientService {
 
-  //public APIURL = "/api/24/";
-  public APIURL = "../../../api/";
+  public BASEURL = "../../..";
+  public APIURL = this.BASEURL + "/api/";
   constructor(private http: Http) {
     this.http = http;
   }
