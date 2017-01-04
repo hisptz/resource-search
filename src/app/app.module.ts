@@ -29,6 +29,7 @@ import { TransormFieldToNamePipe } from './pipes/transorm-field-to-name.pipe';
 import { ContextMenuModule } from 'angular2-contextmenu';
 import { AddEditComponent } from './components/add-edit/add-edit.component';
 import { Dhis2VisualizerComponent } from './components/dhis2-visualizer/dhis2-visualizer.component';
+import { ResourcePipePipe } from './pipes/resource-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { Dhis2VisualizerComponent } from './components/dhis2-visualizer/dhis2-vi
     Ng2DhisVisualizerComponent,
     TransormFieldToNamePipe,
     AddEditComponent,
-    Dhis2VisualizerComponent
+    Dhis2VisualizerComponent,
+    ResourcePipePipe
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,7 @@ import { Dhis2VisualizerComponent } from './components/dhis2-visualizer/dhis2-vi
     Ng2HighchartsModule,
     ContextMenuModule,
     RouterModule.forRoot(<Routes>[
-      { path: '',   redirectTo: '/indicators', pathMatch: 'full' },
+      { path: '', component:NavigatorComponent},
       {path: ':objects', component:NavigatorComponent},
       {path: ':objects/:objectId', component:NavigatorComponent},
       {path: ':objects/:objectId/:relationObjects', component:NavigatorComponent},

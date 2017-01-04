@@ -34,7 +34,7 @@
           </div>
         </div>
         <table *ngIf="!loading && !loadingError" class="table table-hover">
-          <tr *ngFor="let resource of resources | search:searchText | paginate: {currentPage: p, itemsPerPage: 10}"
+          <tr *ngFor="let resource of resources |resourcePipe | search:searchText | paginate: {currentPage: p, itemsPerPage: 10}"
               [routerLink]="['/' + resource.plural]" (contextmenu)="onContextMenu($event, resource)">
             <td>{{resource.displayName}}</td>
           </tr>
