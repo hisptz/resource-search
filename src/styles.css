@@ -7,7 +7,7 @@ article.accordion
   display: block;
   width: 100%;
   margin: 0 auto;
-  background-color: #BFD6E7;
+  background-color: #f5f5f5;
   overflow: auto;
   border-radius: 5px;
   box-shadow: 0 3px 3px rgba(0,0,0,0.3);
@@ -70,17 +70,27 @@ article.accordion section.hidden-content div.content
 }
 article.accordion section.target
 {
-  display: inline-table;
+  /*display: inline-table;*/
   width:0px;
   min-width: 700px;
   max-width:60%;
   padding: 0 1em;
   color: #333;
   background-color: #fff;
+  height: 700px;
+  max-height: 700px;
+  padding-bottom: 40px;
 }
 article.accordion section.target div.content
 {
   margin-left:0px;
+  height: 100%;
+}
+article.accordion section.target div.content form
+{
+  margin-left:0px;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 article.accordion section.target h2

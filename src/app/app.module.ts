@@ -54,7 +54,7 @@ import { Dhis2VisualizerComponent } from './components/dhis2-visualizer/dhis2-vi
     Ng2HighchartsModule,
     ContextMenuModule,
     RouterModule.forRoot(<Routes>[
-      {path: '', component:NavigatorComponent},
+      { path: '',   redirectTo: '/indicators', pathMatch: 'full' },
       {path: ':objects', component:NavigatorComponent},
       {path: ':objects/:objectId', component:NavigatorComponent},
       {path: ':objects/:objectId/:relationObjects', component:NavigatorComponent},

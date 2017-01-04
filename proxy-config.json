@@ -1,12 +1,16 @@
 {
   "/api": {
-    "target": "http://localhost:8081/demo",
+    "target": "http://localhost:8082/demo",
+    "target2": "http://localhost:8081/demo",
     "secure": "false",
-    "auth":"admin:ADMIN2016"
+    "auth":"admin:IROAD2015",
+    "auth2":"admin:ADMIN2016"
   },
   "/": {
-    "target": "http://localhost:8081/demo",
+    "target": "http://localhost:8082/demo",
+    "target2": "http://localhost:8081/demo",
     "secure": "false",
-    "auth":"admin:ADMIN2016"
+    "auth":"admin:IROAD2015",
+    "auth2":"admin:ADMIN2016"
   }
 }
